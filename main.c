@@ -53,10 +53,10 @@ void interrupt sw_int(void)
 {
 //	Psuedocode
 //	If button interrupt
-	if(INTCONbits.RAIF == 1)
-	{
-		button_debounce(); //wait for bouncing to stop
-		INTCONbits.RAIF = 0;  //reset int_flag
+//	if(INTCONbits.RAIF == 1)
+//	{
+//		button_debounce(); //wait for bouncing to stop
+//		INTCONbits.RAIF = 0;  //reset int_flag
 		
 //		for each changed button
 //			if table miss
@@ -76,7 +76,7 @@ void interrupt sw_int(void)
 //		reset sw_array, led_array, table	
 	
 
-	set leds to led_array
+//	set leds to led_array
 	unsigned int j;
 	NOP();
 	for(j=0; j<500; j++);
