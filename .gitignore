@@ -1,0 +1,11 @@
+
+*.as
+*.p1
+*.pre
+*.cof
+*.hex
+*.hxl
+*.rlf
+*.sdb
+*.sym
+funclist
