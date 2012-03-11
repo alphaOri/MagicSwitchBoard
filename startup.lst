@@ -1,7 +1,7 @@
 
 
 HI-TECH Software PIC Macro Assembler V9.83 build 10920 
-                                                                                                           Sun Mar 11 17:13:46 2012
+                                                                                                           Sun Mar 11 17:29:52 2012
 
 
      1                           
@@ -71,12 +71,12 @@ HI-TECH Software PIC Macro Assembler V9.83 build 10920
     65  000F                     _exit
     66                           	psect	end_init
     67                           	global start_initialization
-    68  000F  28B2               	ljmp start_initialization	;jump to C runtime clear & initialization
+    68  000F  2960               	ljmp start_initialization	;jump to C runtime clear & initialization
 
 
 HI-TECH Software PICC Macro Assembler V9.83 build 10920 
-Symbol Table                                                                                               Sun Mar 11 17:13:46 2012
+Symbol Table                                                                                               Sun Mar 11 17:29:52 2012
 
-               _main 0065                 _exit 000F                 start 000F  start_initialization 00B2  
+               _main 0010                 _exit 000F                 start 000F  start_initialization 0160  
            intlevel0 0000             intlevel1 0000             intlevel2 0000             intlevel3 0000  
            intlevel4 0000             intlevel5 0000             reset_vec 0000  

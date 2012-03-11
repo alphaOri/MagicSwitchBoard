@@ -63,9 +63,9 @@ void main()
 	PORTC = 0x00; //clear PORTC
 	TRISC = 0x00; //set all as outputs
 	
-	//Initial blinking light show	
-//	unsigned int i;	
-//	unsigned int delay = 15000;
+//	Initial blinking light show	
+	unsigned int i;	
+	unsigned int delay = 15000;
 //
 //	while(1==1)
 //	{
@@ -75,18 +75,50 @@ void main()
 //		RC1 = RC1 ^ 1;
 //	}	
 
+	
+
+	select_mode();
+	while(sw_state_new.byte)
+	{
+		if(mode == 0)
+		{
+			NOP();
+			for(i=0; i<delay; i++);
+			NOP();
+			RC0 = RC0 ^ 1;
+		}
+		else if(mode == 1)		
+		{
+			NOP();
+			for(i=0; i<delay; i++);
+			NOP();
+			RC1 = RC1 ^ 1;
+		}
+		else if(mode == 2)
+		{
+			NOP();
+			for(i=0; i<delay; i++);
+			NOP();
+			RC2 = RC2 ^ 1;
+		}
+		else if(mode == 3)
+		{
+			NOP();
+			for(i=0; i<delay; i++);
+			NOP();
+			RC3 = RC3 ^ 1;
+		}
+	}
 	while(TRUE)
 	{
-		RC0 = led_state.bits.bit0;
-		RC1 = led_state.bits.bit1;
-		RC2 = led_state.bits.bit2;
-		RC3 = led_state.bits.bit3;
-//		RC0 = 0;
-//		RC1 = 1;
-//		RC2 = 0;
-//		RC3 = 1;
+		NOP();
+		for(i=0; i<delay; i++);
+		NOP();
+		RC0 = RC0 ^ 1;	
+		RC1 = RC1 ^ 1;		
+		RC2 = RC2 ^ 1;		
+		RC3 = RC3 ^ 1;	
 	}
-
 }
 
 void interrupt sw_int(void)
@@ -118,13 +150,14 @@ void interrupt sw_int(void)
 
 //	set leds to led_array
 	unsigned int j;
+	sw_state_old.byte = sw_state_new.byte;
 	NOP();
 	for(j=0; j<500; j++);
 	NOP();
-	led_state.bits.bit0 = RA0;
-	led_state.bits.bit1 = RA1;
-	led_state.bits.bit2 = RA2;
-	led_state.bits.bit3 = RA3;
+	sw_state_new.bits.bit0 = RA0;
+	sw_state_new.bits.bit1 = RA1;
+	sw_state_new.bits.bit2 = RA2;
+	sw_state_new.bits.bit3 = RA3;
 	INTCONbits.RAIF = 0;
 }
 
