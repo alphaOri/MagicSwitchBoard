@@ -25,11 +25,12 @@ startup.obj     end_init                              F        F        1       
                 reset_vec                             0        0        1        0       0
 MSB_5.obj       intentry                              4        4        B        8       0
                 config                             2007     2007        1     400E       0
-                text99                               10       10       37        8       0
-                maintext                             47       47       34        8       0
-                cstackBANK0                          20       20        4       20       1
+                text101                              10       10       55        8       0
+                maintext                             65       65       4D        8       0
+                cstackBANK0                          20       20        2       20       1
                 cstackCOMMON                         70       70        7       70       1
-                cinit                                7B       7B        2        8       0
+                bssCOMMON                            77       77        4       70       1
+                cinit                                B2       B2        6        8       0
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CONST          
@@ -38,9 +39,9 @@ TOTAL           Name                               Link     Load   Length     Sp
                 end_init                              F        F        1         0
                 intentry                              4        4        B         0
                 reset_vec                             0        0        1         0
-                text99                               10       10       37         0
-                maintext                             47       47       34         0
-                cinit                                7B       7B        2         0
+                text101                              10       10       55         0
+                maintext                             65       65       4D         0
+                cinit                                B2       B2        6         0
 
         CLASS   STRCODE        
 
@@ -49,7 +50,7 @@ TOTAL           Name                               Link     Load   Length     Sp
         CLASS   STRING         
 
         CLASS   BANK0          
-                cstackBANK0                          20       20        4         1
+                cstackBANK0                          20       20        2         1
 
         CLASS   BANK1          
 
@@ -60,6 +61,7 @@ TOTAL           Name                               Link     Load   Length     Sp
 
         CLASS   COMMON         
                 cstackCOMMON                         70       70        7         1
+                bssCOMMON                            77       77        4         1
 
         CLASS   SFR0           
 
@@ -77,38 +79,38 @@ TOTAL           Name                               Link     Load   Length     Sp
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class     Delta
 
                 reset_vec                      000000  000001  000001         0       0  CODE        2
-                intentry                       000004  000079  00007D         8       0  CODE        2
-                cstackBANK0                    000020  000004  000024        20       1  BANK0       1
-                cstackCOMMON                   000070  000007  000077        70       1  COMMON      1
+                intentry                       000004  0000B4  0000B8         8       0  CODE        2
+                cstackBANK0                    000020  000002  000022        20       1  BANK0       1
+                cstackCOMMON                   000070  00000B  00007B        70       1  COMMON      1
                 config                         002007  000001  002008      400E       0  CONFIG      2
 
 
 UNUSED ADDRESS RANGES
 
         Name                Unused          Largest block    Delta
-        BANK0            0024-006F             4C           1
+        BANK0            0022-006F             4E           1
         BANK1            00A0-00BF             20           1
         CODE             0001-0003              3           2
-                         007D-07FF            783
-        COMMON           0077-007D              7           1
+                         00B8-07FF            748
+        COMMON           007B-007D              3           1
         CONST            0001-0003              3           2
-                         007D-07FF            100
+                         00B8-07FF            100
         EEDATA           2100-21FF            100           2
         ENTRY            0001-0003              3           2
-                         007D-07FF            100
+                         00B8-07FF            100
         IDLOC            2000-2003              4           2
-        RAM              0024-006F             4C           1
+        RAM              0022-006F             4E           1
                          00A0-00BF             20
         SFR0             0000-001F             20           1
         SFR1             0080-009F             20           1
         STRCODE          0001-0003              3           2
-                         007D-07FF            783
+                         00B8-07FF            748
         STRING           0001-0003              3           2
-                         007D-07FF            100
+                         00B8-07FF            100
 
                                   Symbol Table
 
-??_main               cstackCOMMON 0077
+??_main               cstackBANK0  0020
 ??_sw_int             cstackCOMMON 0070
 ?_main                cstackCOMMON 0070
 ?_sw_int              cstackCOMMON 0070
@@ -123,9 +125,14 @@ _GIE                  (abs)        005F
 _INTCONbits           (abs)        000B
 _IOCA                 (abs)        0096
 _PORTA                (abs)        0005
-_PORTAbits            (abs)        0005
 _PORTC                (abs)        0007
+_RA0                  (abs)        0028
+_RA1                  (abs)        0029
+_RA2                  (abs)        002A
+_RA3                  (abs)        002B
+_RC0                  (abs)        0038
 _RC1                  (abs)        0039
+_RC2                  (abs)        003A
 _RC3                  (abs)        003B
 _RD                   (abs)        04E0
 _TRISA                (abs)        0085
@@ -135,6 +142,7 @@ _WREN                 (abs)        04E2
 __Habs1               abs1         0000
 __Hbank0              bank0        0000
 __Hbank1              bank1        0000
+__HbssCOMMON          bssCOMMON    0000
 __Hcinit              cinit        0000
 __Hclrtext            clrtext      0000
 __Hcode               code         0000
@@ -159,6 +167,7 @@ __Htext               text         0000
 __Labs1               abs1         0000
 __Lbank0              bank0        0000
 __Lbank1              bank1        0000
+__LbssCOMMON          bssCOMMON    0000
 __Lcinit              cinit        0000
 __Lclrtext            clrtext      0000
 __Lcode               code         0000
@@ -181,24 +190,29 @@ __Lsfr1               sfr1         0000
 __Lstrings            strings      0000
 __Ltext               text         0000
 __S0                  (abs)        2008
-__S1                  (abs)        0077
+__S1                  (abs)        007B
 __S2                  (abs)        0000
-__end_of_main         maintext     007B
-__end_of_sw_int       text99       0047
+__end_of_main         maintext     00B2
+__end_of_sw_int       text101      0065
+__pbssCOMMON          bssCOMMON    0077
 __pcstackBANK0        cstackBANK0  0020
 __pcstackCOMMON       cstackCOMMON 0070
 __pintentry           intentry     0004
-__pmaintext           maintext     0047
+__pmaintext           maintext     0065
 __ptext100            text100      0000
-__ptext98             text98       0000
-__ptext99             text99       0010
+__ptext101            text101      0010
+__ptext102            text102      0000
 __size_of_main        (abs)        0000
 __size_of_sw_int      (abs)        0000
 _exit                 init         000F
-_main                 maintext     0047
-_sw_int               text99       0010
+_led_state            bssCOMMON    0077
+_main                 maintext     0065
+_mode                 bssCOMMON    0078
+_sw_int               text101      0010
+_sw_state_new         bssCOMMON    0079
+_sw_state_old         bssCOMMON    007A
 btemp                 (abs)        007E
-end_of_initialization cinit        007B
+end_of_initialization cinit        00B6
 interrupt_function    intentry     0004
 intlevel0             functab      0000
 intlevel1             functab      0000
@@ -206,11 +220,9 @@ intlevel2             functab      0000
 intlevel3             functab      0000
 intlevel4             functab      0000
 intlevel5             functab      0000
-main@delay            cstackBANK0  0020
-main@i                cstackBANK0  0022
 reset_vec             reset_vec    0000
 saved_w               (abs)        007E
 start                 init         000F
-start_initialization  cinit        007B
+start_initialization  cinit        00B2
 sw_int@j              cstackCOMMON 0075
 wtemp0                (abs)        007E

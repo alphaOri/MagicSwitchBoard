@@ -1,7 +1,7 @@
 
 
 HI-TECH Software PIC LITE Macro Assembler V9.83 build 10920 
-                                                                                               Wed Mar 07 23:56:27 2012
+                                                                                               Sun Mar 11 17:13:46 2012
 
 HI-TECH Software Omniscient Code Generator (Lite mode) build 10920
      1  0000                     opt subtitle "HI-TECH Software Omniscient Code Generator (Lite mode) build 10920"
@@ -45,557 +45,649 @@ HI-TECH Software Omniscient Code Generator (Lite mode) build 10920
     39  0001                     c	equ	1
     40  0000                     z	equ	0
     41  000A                     pclath	equ	10
-    42                           # 12 "F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c"
+    42                           # 13 "F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c"
     43                           	psect config,class=CONFIG,delta=2 ;#
-    44                           # 12 "F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c"
+    44                           # 13 "F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c"
     45  2007  F0D4               	dw 0xFFFC & 0xFFFF & 0xFCFF & 0xFFFF & 0xFFFF & 0xFFF7 & 0xFFDF & 0xFBFF & 0xF7FF ;#
     46                           	FNROOT	_main
     47                           	FNCALL	intlevel1,_sw_int
     48                           	global	intlevel1
     49                           	FNROOT	intlevel1
-    50                           	global	_CMCON0
-    51                           psect	text98,local,class=CODE,delta=2
-    52                           global __ptext98
-    53  0000                     __ptext98:
-    54  0019                     _CMCON0	set	25
-    55                           	global	_INTCONbits
-    56  000B                     _INTCONbits	set	11
-    57                           	global	_PORTA
-    58  0005                     _PORTA	set	5
-    59                           	global	_PORTAbits
-    60  0005                     _PORTAbits	set	5
-    61                           	global	_PORTC
-    62  0007                     _PORTC	set	7
-    63                           	global	_CARRY
-    64  0018                     _CARRY	set	24
-    65                           	global	_GIE
-    66  005F                     _GIE	set	95
-    67                           	global	_RC1
-    68  0039                     _RC1	set	57
-    69                           	global	_RC3
-    70  003B                     _RC3	set	59
-    71                           	global	_ANSEL
-    72  0091                     _ANSEL	set	145
-    73                           	global	_EEADR
-    74  009B                     _EEADR	set	155
-    75                           	global	_EECON1
-    76  009C                     _EECON1	set	156
-    77                           	global	_EECON2
-    78  009D                     _EECON2	set	157
-    79                           	global	_EEDATA
-    80  009A                     _EEDATA	set	154
-    81                           	global	_IOCA
-    82  0096                     _IOCA	set	150
-    83                           	global	_TRISA
-    84  0085                     _TRISA	set	133
-    85                           	global	_TRISC
-    86  0087                     _TRISC	set	135
-    87                           	global	_RD
-    88  04E0                     _RD	set	1248
-    89                           	global	_WR
-    90  04E1                     _WR	set	1249
-    91                           	global	_WREN
-    92  04E2                     _WREN	set	1250
-    93                           	file	"MSB_5.as"
-    94                           	line	#
-    95                           psect cinit,class=CODE,delta=2
-    96                           global start_initialization
-    97  007B                     start_initialization:
-    98                           
-    99                           psect cinit,class=CODE,delta=2
-   100                           global end_of_initialization
-   101                           
-   102                           ;End of C runtime variable initialization code
-   103                           
-   104  007B                     end_of_initialization:
-   105  007B  0183               clrf status
-   106  007C  2847               ljmp _main	;jump to C main() function
-   107                           psect	cstackCOMMON,class=COMMON,space=1
-   108                           global __pcstackCOMMON
-   109  0070                     __pcstackCOMMON:
-   110                           	global	?_main
-   111  0070                     ?_main:	; 0 bytes @ 0x0
-   112                           	global	?_sw_int
-   113  0070                     ?_sw_int:	; 0 bytes @ 0x0
-   114                           	global	??_sw_int
-   115  0070                     ??_sw_int:	; 0 bytes @ 0x0
-   116  0070                     	ds	5
-   117                           	global	sw_int@j
-   118  0075                     sw_int@j:	; 2 bytes @ 0x5
-   119  0075                     	ds	2
-   120                           	global	??_main
-   121  0077                     ??_main:	; 0 bytes @ 0x7
-   122                           psect	cstackBANK0,class=BANK0,space=1
-   123                           global __pcstackBANK0
-   124  0020                     __pcstackBANK0:
-   125                           	global	main@delay
-   126  0020                     main@delay:	; 2 bytes @ 0x0
-   127  0020                     	ds	2
-   128                           	global	main@i
-   129  0022                     main@i:	; 2 bytes @ 0x2
-   130  0022                     	ds	2
-   131 ;;Data sizes: Strings 0, constant 0, data 0, bss 0, persistent 0 stack 0
-   132 ;;Auto spaces:   Size  Autos    Used
-   133 ;; COMMON          14      7       7
-   134 ;; BANK0           80      4       4
-   135 ;; BANK1           32      0       0
+    50                           	global	_led_state
+    51                           	global	_mode
+    52                           	global	_sw_state_new
+    53                           	global	_sw_state_old
+    54                           	global	_CMCON0
+    55                           psect	text100,local,class=CODE,delta=2
+    56                           global __ptext100
+    57  0000                     __ptext100:
+    58  0019                     _CMCON0	set	25
+    59                           	global	_INTCONbits
+    60  000B                     _INTCONbits	set	11
+    61                           	global	_PORTA
+    62  0005                     _PORTA	set	5
+    63                           	global	_PORTC
+    64  0007                     _PORTC	set	7
+    65                           	global	_CARRY
+    66  0018                     _CARRY	set	24
+    67                           	global	_GIE
+    68  005F                     _GIE	set	95
+    69                           	global	_RA0
+    70  0028                     _RA0	set	40
+    71                           	global	_RA1
+    72  0029                     _RA1	set	41
+    73                           	global	_RA2
+    74  002A                     _RA2	set	42
+    75                           	global	_RA3
+    76  002B                     _RA3	set	43
+    77                           	global	_RC0
+    78  0038                     _RC0	set	56
+    79                           	global	_RC1
+    80  0039                     _RC1	set	57
+    81                           	global	_RC2
+    82  003A                     _RC2	set	58
+    83                           	global	_RC3
+    84  003B                     _RC3	set	59
+    85                           	global	_ANSEL
+    86  0091                     _ANSEL	set	145
+    87                           	global	_EEADR
+    88  009B                     _EEADR	set	155
+    89                           	global	_EECON1
+    90  009C                     _EECON1	set	156
+    91                           	global	_EECON2
+    92  009D                     _EECON2	set	157
+    93                           	global	_EEDATA
+    94  009A                     _EEDATA	set	154
+    95                           	global	_IOCA
+    96  0096                     _IOCA	set	150
+    97                           	global	_TRISA
+    98  0085                     _TRISA	set	133
+    99                           	global	_TRISC
+   100  0087                     _TRISC	set	135
+   101                           	global	_RD
+   102  04E0                     _RD	set	1248
+   103                           	global	_WR
+   104  04E1                     _WR	set	1249
+   105                           	global	_WREN
+   106  04E2                     _WREN	set	1250
+   107                           	file	"MSB_5.as"
+   108                           	line	#
+   109                           psect cinit,class=CODE,delta=2
+   110                           global start_initialization
+   111  00B2                     start_initialization:
+   112                           
+   113                           psect	bssCOMMON,class=COMMON,space=1
+   114                           global __pbssCOMMON
+   115  0077                     __pbssCOMMON:
+   116  0077                     _led_state:
+   117  0077                            ds      1
+   118                           
+   119  0078                     _mode:
+   120  0078                            ds      1
+   121                           
+   122  0079                     _sw_state_new:
+   123  0079                            ds      1
+   124                           
+   125  007A                     _sw_state_old:
+   126  007A                            ds      1
+   127                           
+   128                           ; Clear objects allocated to COMMON
+   129                           psect cinit,class=CODE,delta=2
+   130  00B2  01F7               	clrf	((__pbssCOMMON)+0)&07Fh
+   131  00B3  01F8               	clrf	((__pbssCOMMON)+1)&07Fh
+   132  00B4  01F9               	clrf	((__pbssCOMMON)+2)&07Fh
+   133  00B5  01FA               	clrf	((__pbssCOMMON)+3)&07Fh
+   134                           psect cinit,class=CODE,delta=2
+   135                           global end_of_initialization
    136                           
-   137 ;;
-   138 ;; Pointer list with targets:
-   139                           
-   140                           
-   141                           
-   142 ;;
-   143 ;; Critical Paths under _main in COMMON
-   144 ;;
-   145 ;;   None.
-   146 ;;
-   147 ;; Critical Paths under _sw_int in COMMON
-   148 ;;
-   149 ;;   None.
-   150 ;;
-   151 ;; Critical Paths under _main in BANK0
-   152 ;;
-   153 ;;   None.
-   154 ;;
-   155 ;; Critical Paths under _sw_int in BANK0
-   156 ;;
-   157 ;;   None.
-   158 ;;
-   159 ;; Critical Paths under _main in BANK1
-   160 ;;
-   161 ;;   None.
-   162 ;;
-   163 ;; Critical Paths under _sw_int in BANK1
-   164 ;;
-   165 ;;   None.
+   137                           ;End of C runtime variable initialization code
+   138                           
+   139  00B6                     end_of_initialization:
+   140  00B6  0183               clrf status
+   141  00B7  2865               ljmp _main	;jump to C main() function
+   142                           psect	cstackCOMMON,class=COMMON,space=1
+   143                           global __pcstackCOMMON
+   144  0070                     __pcstackCOMMON:
+   145                           	global	?_main
+   146  0070                     ?_main:	; 0 bytes @ 0x0
+   147                           	global	?_sw_int
+   148  0070                     ?_sw_int:	; 0 bytes @ 0x0
+   149                           	global	??_sw_int
+   150  0070                     ??_sw_int:	; 0 bytes @ 0x0
+   151  0070                     	ds	5
+   152                           	global	sw_int@j
+   153  0075                     sw_int@j:	; 2 bytes @ 0x5
+   154  0075                     	ds	2
+   155                           psect	cstackBANK0,class=BANK0,space=1
+   156                           global __pcstackBANK0
+   157  0020                     __pcstackBANK0:
+   158                           	global	??_main
+   159  0020                     ??_main:	; 0 bytes @ 0x0
+   160  0020                     	ds	2
+   161 ;;Data sizes: Strings 0, constant 0, data 0, bss 4, persistent 0 stack 0
+   162 ;;Auto spaces:   Size  Autos    Used
+   163 ;; COMMON          14      7      11
+   164 ;; BANK0           80      2       2
+   165 ;; BANK1           32      0       0
    166                           
    167 ;;
-   168 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
-   169 ;;
+   168 ;; Pointer list with targets:
+   169                           
    170                           
-   171 ;;
-   172 ;;Call Graph Tables:
-   173 ;;
-   174 ;; ---------------------------------------------------------------------------------
-   175 ;; (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
-   176 ;; ---------------------------------------------------------------------------------
-   177 ;; (0) _main                                                 4     4      0      47
-   178 ;;                                              0 BANK0      4     4      0
-   179 ;; ---------------------------------------------------------------------------------
-   180 ;; Estimated maximum stack depth 0
-   181 ;; ---------------------------------------------------------------------------------
-   182 ;; (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
-   183 ;; ---------------------------------------------------------------------------------
-   184 ;; (1) _sw_int                                               7     7      0      30
-   185 ;;                                              0 COMMON     7     7      0
-   186 ;; ---------------------------------------------------------------------------------
-   187 ;; Estimated maximum stack depth 1
-   188 ;; ---------------------------------------------------------------------------------
-   189                           
-   190 ;; Call Graph Graphs:
-   191                           
-   192 ;; _main (ROOT)
-   193 ;;
-   194 ;; _sw_int (ROOT)
-   195 ;;
+   171                           
+   172 ;;
+   173 ;; Critical Paths under _main in COMMON
+   174 ;;
+   175 ;;   None.
+   176 ;;
+   177 ;; Critical Paths under _sw_int in COMMON
+   178 ;;
+   179 ;;   None.
+   180 ;;
+   181 ;; Critical Paths under _main in BANK0
+   182 ;;
+   183 ;;   None.
+   184 ;;
+   185 ;; Critical Paths under _sw_int in BANK0
+   186 ;;
+   187 ;;   None.
+   188 ;;
+   189 ;; Critical Paths under _main in BANK1
+   190 ;;
+   191 ;;   None.
+   192 ;;
+   193 ;; Critical Paths under _sw_int in BANK1
+   194 ;;
+   195 ;;   None.
    196                           
-   197 ;; Address spaces:
-   198                           
-   199 ;;Name               Size   Autos  Total    Cost      Usage
-   200 ;;BITCOMMON            E      0       0       0        0.0%
-   201 ;;EEDATA             100      0       0       0        0.0%
-   202 ;;NULL                 0      0       0       0        0.0%
-   203 ;;CODE                 0      0       0       0        0.0%
-   204 ;;COMMON               E      7       7       1       50.0%
-   205 ;;BITSFR0              0      0       0       1        0.0%
-   206 ;;SFR0                 0      0       0       1        0.0%
-   207 ;;BITSFR1              0      0       0       2        0.0%
-   208 ;;SFR1                 0      0       0       2        0.0%
-   209 ;;STACK                0      0       0       2        0.0%
-   210 ;;BITBANK0            50      0       0       3        0.0%
-   211 ;;BANK0               50      4       4       4        5.0%
-   212 ;;BANK1               20      0       0       5        0.0%
-   213 ;;ABS                  0      0       0       6        0.0%
-   214 ;;BITBANK1            20      0       0       7        0.0%
-   215 ;;DATA                 0      0       0       8        0.0%
-   216                           
-   217                           	global	_main
-   218                           psect	maintext,global,class=CODE,delta=2
-   219                           global __pmaintext
-   220  0047                     __pmaintext:
+   197 ;;
+   198 ;;Main: autosize = 0, tempsize = 2, incstack = 0, save=0
+   199 ;;
+   200                           
+   201 ;;
+   202 ;;Call Graph Tables:
+   203 ;;
+   204 ;; ---------------------------------------------------------------------------------
+   205 ;; (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+   206 ;; ---------------------------------------------------------------------------------
+   207 ;; (0) _main                                                 2     2      0       0
+   208 ;;                                              0 BANK0      2     2      0
+   209 ;; ---------------------------------------------------------------------------------
+   210 ;; Estimated maximum stack depth 0
+   211 ;; ---------------------------------------------------------------------------------
+   212 ;; (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+   213 ;; ---------------------------------------------------------------------------------
+   214 ;; (1) _sw_int                                               7     7      0      30
+   215 ;;                                              0 COMMON     7     7      0
+   216 ;; ---------------------------------------------------------------------------------
+   217 ;; Estimated maximum stack depth 1
+   218 ;; ---------------------------------------------------------------------------------
+   219                           
+   220 ;; Call Graph Graphs:
    221                           
-   222 ;; *************** function _main *****************
-   223 ;; Defined at:
-   224 ;;		line 15 in file "F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c"
-   225 ;; Parameters:    Size  Location     Type
-   226 ;;		None
-   227 ;; Auto vars:     Size  Location     Type
-   228 ;;  i               2    2[BANK0 ] unsigned int 
-   229 ;;  delay           2    0[BANK0 ] unsigned int 
-   230 ;; Return value:  Size  Location     Type
-   231 ;;		None               void
-   232 ;; Registers used:
-   233 ;;		wreg, status,2
-   234 ;; Tracked objects:
-   235 ;;		On entry : 17F/0
-   236 ;;		On exit  : 0/0
-   237 ;;		Unchanged: 0/0
-   238 ;; Data sizes:     COMMON   BANK0   BANK1
-   239 ;;      Params:         0       0       0
-   240 ;;      Locals:         0       4       0
-   241 ;;      Temps:          0       0       0
-   242 ;;      Totals:         0       4       0
-   243 ;;Total ram usage:        4 bytes
-   244 ;; Hardware stack levels required when called:    1
-   245 ;; This function calls:
-   246 ;;		Nothing
-   247 ;; This function is called by:
-   248 ;;		Startup code after reset
-   249 ;; This function uses a non-reentrant model
-   250 ;;
-   251                           psect	maintext
-   252                           	file	"F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c
+   222 ;; _main (ROOT)
+   223 ;;
+   224 ;; _sw_int (ROOT)
+   225 ;;
+   226                           
+   227 ;; Address spaces:
+   228                           
+   229 ;;Name               Size   Autos  Total    Cost      Usage
+   230 ;;BITCOMMON            E      0       0       0        0.0%
+   231 ;;EEDATA             100      0       0       0        0.0%
+   232 ;;NULL                 0      0       0       0        0.0%
+   233 ;;CODE                 0      0       0       0        0.0%
+   234 ;;COMMON               E      7       B       1       78.6%
+   235 ;;BITSFR0              0      0       0       1        0.0%
+   236 ;;SFR0                 0      0       0       1        0.0%
+   237 ;;BITSFR1              0      0       0       2        0.0%
+   238 ;;SFR1                 0      0       0       2        0.0%
+   239 ;;STACK                0      0       0       2        0.0%
+   240 ;;BITBANK0            50      0       0       3        0.0%
+   241 ;;BANK0               50      2       2       4        2.5%
+   242 ;;BANK1               20      0       0       5        0.0%
+   243 ;;ABS                  0      0       D       6        0.0%
+   244 ;;BITBANK1            20      0       0       7        0.0%
+   245 ;;DATA                 0      0       D       8        0.0%
+   246                           
+   247                           	global	_main
+   248                           psect	maintext,global,class=CODE,delta=2
+   249                           global __pmaintext
+   250  0065                     __pmaintext:
+   251                           
+   252 ;; *************** function _main *****************
+   253 ;; Defined at:
+   254 ;;		line 45 in file "F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c"
+   255 ;; Parameters:    Size  Location     Type
+   256 ;;		None
+   257 ;; Auto vars:     Size  Location     Type
+   258 ;;		None
+   259 ;; Return value:  Size  Location     Type
+   260 ;;		None               void
+   261 ;; Registers used:
+   262 ;;		wreg, status,2, status,0
+   263 ;; Tracked objects:
+   264 ;;		On entry : 17F/0
+   265 ;;		On exit  : 0/0
+   266 ;;		Unchanged: 0/0
+   267 ;; Data sizes:     COMMON   BANK0   BANK1
+   268 ;;      Params:         0       0       0
+   269 ;;      Locals:         0       0       0
+   270 ;;      Temps:          0       2       0
+   271 ;;      Totals:         0       2       0
+   272 ;;Total ram usage:        2 bytes
+   273 ;; Hardware stack levels required when called:    1
+   274 ;; This function calls:
+   275 ;;		Nothing
+   276 ;; This function is called by:
+   277 ;;		Startup code after reset
+   278 ;; This function uses a non-reentrant model
+   279 ;;
+   280                           psect	maintext
+   281                           	file	"F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c
                                  "
-   253                           	line	15
-   254                           	global	__size_of_main
-   255  0034                     	__size_of_main	equ	__end_of_main-_main
-   256                           	
-   257  0047                     _main:	
-   258                           	opt	stack 7
-   259                           ; Regs used in _main: [wreg+status,2]
-   260                           	line	19
-   261                           	
-   262  0047                     l2381:	
-   263                           ;main.c: 19: INTCONbits.RAIF = 0;
-   264  0047  100B               	bcf	(11),0	;volatile
-   265                           	line	20
-   266                           ;main.c: 20: INTCONbits.GIE = 1;
-   267  0048  178B               	bsf	(11),7	;volatile
-   268                           	line	21
-   269                           ;main.c: 21: INTCONbits.RAIE = 1;
-   270  0049  158B               	bsf	(11),3	;volatile
-   271                           	line	25
-   272                           	
-   273  004A                     l2383:	
-   274                           ;main.c: 25: PORTA = 0x00;
-   275  004A  1283               	bcf	status, 5	;RP0=0, select bank0
-   276  004B  0185               	clrf	(5)	;volatile
-   277                           	line	26
-   278                           ;main.c: 26: ANSEL = 0x00;
-   279  004C  1683               	bsf	status, 5	;RP0=1, select bank1
-   280  004D  0191               	clrf	(145)^080h	;volatile
-   281                           	line	27
-   282                           	
-   283  004E                     l2385:	
-   284                           ;main.c: 27: CMCON0 = 0x07;
-   285  004E  3007               	movlw	(07h)
-   286  004F  1283               	bcf	status, 5	;RP0=0, select bank0
-   287  0050  0099               	movwf	(25)	;volatile
-   288                           	line	29
-   289                           	
-   290  0051                     l2387:	
-   291                           ;main.c: 29: IOCA = 0b000001;
-   292  0051  3001               	movlw	(01h)
-   293  0052  1683               	bsf	status, 5	;RP0=1, select bank1
-   294  0053  0096               	movwf	(150)^080h	;volatile
-   295                           	line	30
-   296                           	
-   297  0054                     l2389:	
-   298                           ;main.c: 30: TRISA = 0x01;
-   299  0054  3001               	movlw	(01h)
-   300  0055  0085               	movwf	(133)^080h	;volatile
-   301                           	line	33
-   302                           	
-   303  0056                     l2391:	
-   304                           ;main.c: 33: PORTC = 0x00;
-   305  0056  1283               	bcf	status, 5	;RP0=0, select bank0
-   306  0057  0187               	clrf	(7)	;volatile
-   307                           	line	34
-   308                           	
-   309  0058                     l2393:	
-   310                           ;main.c: 34: TRISC = 0x00;
-   311  0058  1683               	bsf	status, 5	;RP0=1, select bank1
-   312  0059  0187               	clrf	(135)^080h	;volatile
-   313                           	line	41
-   314                           	
-   315  005A                     l2395:	
-   316                           ;main.c: 40: unsigned int i;
-   317                           ;main.c: 41: unsigned int delay = 15000;
-   318  005A  3098               	movlw	low(03A98h)
-   319  005B  1283               	bcf	status, 5	;RP0=0, select bank0
-   320  005C  00A0               	movwf	(main@delay)
-   321  005D  303A               	movlw	high(03A98h)
-   322  005E  00A1               	movwf	((main@delay))+1
-   323                           	line	43
-   324                           ;main.c: 43: while(1==1)
+   282                           	line	45
+   283                           	global	__size_of_main
+   284  004D                     	__size_of_main	equ	__end_of_main-_main
+   285                           	
+   286  0065                     _main:	
+   287                           	opt	stack 7
+   288                           ; Regs used in _main: [wreg+status,2+status,0]
+   289                           	line	49
+   290                           	
+   291  0065                     l2397:	
+   292                           ;main.c: 49: INTCONbits.RAIF = 0;
+   293  0065  100B               	bcf	(11),0	;volatile
+   294                           	line	50
+   295                           ;main.c: 50: INTCONbits.GIE = 1;
+   296  0066  178B               	bsf	(11),7	;volatile
+   297                           	line	51
+   298                           ;main.c: 51: INTCONbits.RAIE = 1;
+   299  0067  158B               	bsf	(11),3	;volatile
+   300                           	line	55
+   301                           	
+   302  0068                     l2399:	
+   303                           ;main.c: 55: PORTA = 0x00;
+   304  0068  1283               	bcf	status, 5	;RP0=0, select bank0
+   305  0069  0185               	clrf	(5)	;volatile
+   306                           	line	56
+   307                           ;main.c: 56: ANSEL = 0x00;
+   308  006A  1683               	bsf	status, 5	;RP0=1, select bank1
+   309  006B  0191               	clrf	(145)^080h	;volatile
+   310                           	line	57
+   311                           	
+   312  006C                     l2401:	
+   313                           ;main.c: 57: CMCON0 = 0x07;
+   314  006C  3007               	movlw	(07h)
+   315  006D  1283               	bcf	status, 5	;RP0=0, select bank0
+   316  006E  0099               	movwf	(25)	;volatile
+   317                           	line	59
+   318                           	
+   319  006F                     l2403:	
+   320                           ;main.c: 59: IOCA = 0x0F;
+   321  006F  300F               	movlw	(0Fh)
+   322  0070  1683               	bsf	status, 5	;RP0=1, select bank1
+   323  0071  0096               	movwf	(150)^080h	;volatile
+   324                           	line	60
    325                           	
-   326  005F                     l552:	
-   327                           	line	45
-   328                           ;main.c: 44: {
-   329                           ;main.c: 45: _nop();
-   330  005F  0000               	nop
-   331                           	line	46
-   332                           	
-   333  0060                     l2397:	
-   334                           ;main.c: 46: for(i=0; i<delay; i++);
-   335  0060  1283               	bcf	status, 5	;RP0=0, select bank0
-   336  0061  01A2               	clrf	(main@i)
-   337  0062  01A3               	clrf	(main@i+1)
-   338  0063  286A               	goto	l553
-   339                           	
-   340  0064                     l554:	
-   341                           	
-   342  0064                     l2399:	
-   343  0064  3001               	movlw	low(01h)
-   344  0065  07A2               	addwf	(main@i),f
-   345  0066  1803               	skipnc
-   346  0067  0AA3               	incf	(main@i+1),f
-   347  0068  3000               	movlw	high(01h)
-   348  0069  07A3               	addwf	(main@i+1),f
-   349                           	
-   350  006A                     l553:	
-   351  006A  0821               	movf	(main@delay+1),w
-   352  006B  0223               	subwf	(main@i+1),w
-   353  006C  1D03               	skipz
-   354  006D  2870               	goto	u2275
-   355  006E  0820               	movf	(main@delay),w
-   356  006F  0222               	subwf	(main@i),w
-   357  0070                     u2275:
-   358  0070  1C03               	skipc
-   359  0071  2873               	goto	u2271
-   360  0072  2874               	goto	u2270
-   361  0073                     u2271:
-   362  0073  2864               	goto	l2399
-   363  0074                     u2270:
-   364                           	
-   365  0074                     l555:	
-   366                           	line	47
-   367                           ;main.c: 47: _nop();
-   368  0074  0000               	nop
-   369                           	line	48
+   326  0072                     l2405:	
+   327                           ;main.c: 60: TRISA = 0x0F;
+   328  0072  300F               	movlw	(0Fh)
+   329  0073  0085               	movwf	(133)^080h	;volatile
+   330                           	line	63
+   331                           	
+   332  0074                     l2407:	
+   333                           ;main.c: 63: PORTC = 0x00;
+   334  0074  1283               	bcf	status, 5	;RP0=0, select bank0
+   335  0075  0187               	clrf	(7)	;volatile
+   336                           	line	64
+   337                           	
+   338  0076                     l2409:	
+   339                           ;main.c: 64: TRISC = 0x00;
+   340  0076  1683               	bsf	status, 5	;RP0=1, select bank1
+   341  0077  0187               	clrf	(135)^080h	;volatile
+   342  0078  2879               	goto	l2411
+   343                           	line	78
+   344                           ;main.c: 78: while(1)
+   345                           	
+   346  0079                     l559:	
+   347                           	line	80
+   348                           	
+   349  0079                     l2411:	
+   350                           ;main.c: 79: {
+   351                           ;main.c: 80: RC0 = led_state.bits.bit0;
+   352  0079  0877               	movf	(_led_state),w
+   353  007A  3901               	andlw	(1<<1)-1
+   354  007B  1283               	bcf	status, 5	;RP0=0, select bank0
+   355  007C  00A0               	movwf	(??_main+0)+0
+   356  007D  0C20               	rrf	(??_main+0)+0,w
+   357  007E  1803               	btfsc	status,0
+   358  007F  2881               	goto	u2321
+   359  0080  2884               	goto	u2320
+   360                           	
+   361  0081                     u2321:
+   362  0081  1283               	bcf	status, 5	;RP0=0, select bank0
+   363  0082  1407               	bsf	(56/8),(56)&7
+   364  0083  2886               	goto	u2334
+   365  0084                     u2320:
+   366  0084  1283               	bcf	status, 5	;RP0=0, select bank0
+   367  0085  1007               	bcf	(56/8),(56)&7
+   368  0086                     u2334:
+   369                           	line	81
    370                           	
-   371  0075                     l2401:	
-   372                           ;main.c: 48: RC1 = RC1 ^ 1;
-   373  0075  3002               	movlw	1<<((57)&7)
-   374  0076  1283               	bcf	status, 5	;RP0=0, select bank0
-   375  0077  0687               	xorwf	((57)/8),f
-   376  0078  285F               	goto	l552
-   377                           	line	49
-   378                           	
-   379  0079                     l551:	
-   380                           	line	43
-   381  0079  285F               	goto	l552
-   382                           	
-   383  007A                     l556:	
-   384                           	line	50
-   385                           	
-   386  007A                     l557:	
-   387                           	global	start
-   388  007A  280F               	ljmp	start
-   389                           	opt stack 0
-   390                           GLOBAL	__end_of_main
-   391  007B                     	__end_of_main:
-   392 ;; =============== function _main ends ============
-   393                           
-   394                           	signat	_main,88
-   395                           	global	_sw_int
-   396                           psect	text99,local,class=CODE,delta=2
-   397                           global __ptext99
-   398  0010                     __ptext99:
-   399                           
-   400 ;; *************** function _sw_int *****************
-   401 ;; Defined at:
-   402 ;;		line 53 in file "F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c"
-   403 ;; Parameters:    Size  Location     Type
-   404 ;;		None
-   405 ;; Auto vars:     Size  Location     Type
-   406 ;;  j               2    5[COMMON] unsigned int 
-   407 ;; Return value:  Size  Location     Type
-   408 ;;		None               void
-   409 ;; Registers used:
-   410 ;;		wreg, status,2, status,0
-   411 ;; Tracked objects:
-   412 ;;		On entry : 0/0
-   413 ;;		On exit  : 0/0
-   414 ;;		Unchanged: 0/0
-   415 ;; Data sizes:     COMMON   BANK0   BANK1
-   416 ;;      Params:         0       0       0
-   417 ;;      Locals:         2       0       0
-   418 ;;      Temps:          5       0       0
-   419 ;;      Totals:         7       0       0
-   420 ;;Total ram usage:        7 bytes
-   421 ;; Hardware stack levels used:    1
-   422 ;; This function calls:
-   423 ;;		Nothing
-   424 ;; This function is called by:
-   425 ;;		Interrupt level 1
-   426 ;; This function uses a non-reentrant model
-   427 ;;
-   428                           psect	text99
-   429                           	file	"F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c
+   371  0086                     l2413:	
+   372                           ;main.c: 81: RC1 = led_state.bits.bit1;
+   373  0086  0C77               	rrf	(_led_state),w
+   374  0087  3901               	andlw	(1<<1)-1
+   375  0088  00A0               	movwf	(??_main+0)+0
+   376  0089  0C20               	rrf	(??_main+0)+0,w
+   377  008A  1803               	btfsc	status,0
+   378  008B  288D               	goto	u2341
+   379  008C  2890               	goto	u2340
+   380                           	
+   381  008D                     u2341:
+   382  008D  1283               	bcf	status, 5	;RP0=0, select bank0
+   383  008E  1487               	bsf	(57/8),(57)&7
+   384  008F  2892               	goto	u2354
+   385  0090                     u2340:
+   386  0090  1283               	bcf	status, 5	;RP0=0, select bank0
+   387  0091  1087               	bcf	(57/8),(57)&7
+   388  0092                     u2354:
+   389                           	line	82
+   390                           	
+   391  0092                     l2415:	
+   392                           ;main.c: 82: RC2 = led_state.bits.bit2;
+   393  0092  0C77               	rrf	(_led_state),w
+   394  0093  00A0               	movwf	(??_main+0)+0
+   395  0094  0C20               	rrf	(??_main+0)+0,w
+   396  0095  3901               	andlw	(1<<1)-1
+   397  0096  00A1               	movwf	(??_main+1)+0
+   398  0097  0C21               	rrf	(??_main+1)+0,w
+   399  0098  1803               	btfsc	status,0
+   400  0099  289B               	goto	u2361
+   401  009A  289E               	goto	u2360
+   402                           	
+   403  009B                     u2361:
+   404  009B  1283               	bcf	status, 5	;RP0=0, select bank0
+   405  009C  1507               	bsf	(58/8),(58)&7
+   406  009D  28A0               	goto	u2374
+   407  009E                     u2360:
+   408  009E  1283               	bcf	status, 5	;RP0=0, select bank0
+   409  009F  1107               	bcf	(58/8),(58)&7
+   410  00A0                     u2374:
+   411                           	line	83
+   412                           	
+   413  00A0                     l2417:	
+   414                           ;main.c: 83: RC3 = led_state.bits.bit3;
+   415  00A0  0C77               	rrf	(_led_state),w
+   416  00A1  00A0               	movwf	(??_main+0)+0
+   417  00A2  0CA0               	rrf	(??_main+0)+0,f
+   418  00A3  0C20               	rrf	(??_main+0)+0,w
+   419  00A4  3901               	andlw	(1<<1)-1
+   420  00A5  00A1               	movwf	(??_main+1)+0
+   421  00A6  0C21               	rrf	(??_main+1)+0,w
+   422  00A7  1803               	btfsc	status,0
+   423  00A8  28AA               	goto	u2381
+   424  00A9  28AD               	goto	u2380
+   425                           	
+   426  00AA                     u2381:
+   427  00AA  1283               	bcf	status, 5	;RP0=0, select bank0
+   428  00AB  1587               	bsf	(59/8),(59)&7
+   429  00AC  28AF               	goto	u2394
+   430  00AD                     u2380:
+   431  00AD  1283               	bcf	status, 5	;RP0=0, select bank0
+   432  00AE  1187               	bcf	(59/8),(59)&7
+   433  00AF                     u2394:
+   434  00AF  2879               	goto	l2411
+   435                           	line	88
+   436                           	
+   437  00B0                     l560:	
+   438                           	line	78
+   439  00B0  2879               	goto	l2411
+   440                           	
+   441  00B1                     l561:	
+   442                           	line	90
+   443                           	
+   444  00B1                     l562:	
+   445                           	global	start
+   446  00B1  280F               	ljmp	start
+   447                           	opt stack 0
+   448                           GLOBAL	__end_of_main
+   449  00B2                     	__end_of_main:
+   450 ;; =============== function _main ends ============
+   451                           
+   452                           	signat	_main,88
+   453                           	global	_sw_int
+   454                           psect	text101,local,class=CODE,delta=2
+   455                           global __ptext101
+   456  0010                     __ptext101:
+   457                           
+   458 ;; *************** function _sw_int *****************
+   459 ;; Defined at:
+   460 ;;		line 93 in file "F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c"
+   461 ;; Parameters:    Size  Location     Type
+   462 ;;		None
+   463 ;; Auto vars:     Size  Location     Type
+   464 ;;  j               2    5[COMMON] unsigned int 
+   465 ;; Return value:  Size  Location     Type
+   466 ;;		None               void
+   467 ;; Registers used:
+   468 ;;		wreg, status,2, status,0
+   469 ;; Tracked objects:
+   470 ;;		On entry : 0/0
+   471 ;;		On exit  : 0/0
+   472 ;;		Unchanged: 0/0
+   473 ;; Data sizes:     COMMON   BANK0   BANK1
+   474 ;;      Params:         0       0       0
+   475 ;;      Locals:         2       0       0
+   476 ;;      Temps:          5       0       0
+   477 ;;      Totals:         7       0       0
+   478 ;;Total ram usage:        7 bytes
+   479 ;; Hardware stack levels used:    1
+   480 ;; This function calls:
+   481 ;;		Nothing
+   482 ;; This function is called by:
+   483 ;;		Interrupt level 1
+   484 ;; This function uses a non-reentrant model
+   485 ;;
+   486                           psect	text101
+   487                           	file	"F:\Documents\Personal Files\Creations\MagicSwitchBoard\Code\VersionControl\main.c
                                  "
-   430                           	line	53
-   431                           	global	__size_of_sw_int
-   432  0037                     	__size_of_sw_int	equ	__end_of_sw_int-_sw_int
-   433                           	
-   434  0010                     _sw_int:	
-   435                           	opt	stack 7
-   436                           ; Regs used in _sw_int: [wreg+status,2+status,0]
-   437                           psect	intentry,class=CODE,delta=2
-   438                           global __pintentry
-   439  0004                     __pintentry:
-   440                           global interrupt_function
-   441  0004                     interrupt_function:
-   442                           	global saved_w
-   443  007E                     	saved_w	set	btemp+0
-   444  0004  00FE               	movwf	saved_w
-   445  0005  0E03               	swapf	status,w
-   446  0006  00F1               	movwf	(??_sw_int+1)
-   447  0007  0804               	movf	fsr0,w
-   448  0008  00F2               	movwf	(??_sw_int+2)
-   449  0009  080A               	movf	pclath,w
-   450  000A  00F3               	movwf	(??_sw_int+3)
-   451  000B  1283               	bcf	status, 5	;RP0=0, select bank0
-   452  000C  087F               	movf	btemp+1,w
-   453  000D  00F4               	movwf	(??_sw_int+4)
-   454  000E  2810               	ljmp	_sw_int
-   455                           psect	text99
-   456                           	line	81
-   457                           	
-   458  0010                     i1l1487:	
-   459                           ;main.c: 80: unsigned int j;
-   460                           ;main.c: 81: _nop();
-   461  0010  0000               	nop
-   462                           	line	82
-   463                           	
-   464  0011                     i1l1489:	
-   465                           ;main.c: 82: for(j=0; j<500; j++);
-   466  0011  01F5               	clrf	(sw_int@j)
-   467  0012  01F6               	clrf	(sw_int@j+1)
-   468                           	
-   469  0013                     i1l1491:	
-   470  0013  3001               	movlw	high(01F4h)
-   471  0014  0276               	subwf	(sw_int@j+1),w
-   472  0015  30F4               	movlw	low(01F4h)
-   473  0016  1903               	skipnz
-   474  0017  0275               	subwf	(sw_int@j),w
-   475  0018  1C03               	skipc
-   476  0019  281B               	goto	u1_21
-   477  001A  281C               	goto	u1_20
-   478  001B                     u1_21:
-   479  001B  281E               	goto	i1l1495
-   480  001C                     u1_20:
-   481  001C  282D               	goto	i1l561
-   482                           	
-   483  001D                     i1l1493:	
-   484  001D  282D               	goto	i1l561
-   485                           	
-   486  001E                     i1l560:	
-   487                           	
-   488  001E                     i1l1495:	
-   489  001E  3001               	movlw	low(01h)
-   490  001F  07F5               	addwf	(sw_int@j),f
-   491  0020  1803               	skipnc
-   492  0021  0AF6               	incf	(sw_int@j+1),f
-   493  0022  3000               	movlw	high(01h)
-   494  0023  07F6               	addwf	(sw_int@j+1),f
-   495  0024  3001               	movlw	high(01F4h)
-   496  0025  0276               	subwf	(sw_int@j+1),w
-   497  0026  30F4               	movlw	low(01F4h)
-   498  0027  1903               	skipnz
-   499  0028  0275               	subwf	(sw_int@j),w
-   500  0029  1C03               	skipc
-   501  002A  282C               	goto	u2_21
-   502  002B  282D               	goto	u2_20
-   503  002C                     u2_21:
-   504  002C  281E               	goto	i1l1495
-   505  002D                     u2_20:
-   506                           	
-   507  002D                     i1l561:	
-   508                           	line	83
-   509                           ;main.c: 83: _nop();
-   510  002D  0000               	nop
-   511                           	line	84
-   512                           	
-   513  002E                     i1l1497:	
-   514                           ;main.c: 84: RC3 = PORTAbits.RA0;
-   515  002E  1283               	bcf	status, 5	;RP0=0, select bank0
-   516  002F  0805               	movf	(5),w	;volatile
-   517  0030  3901               	andlw	(1<<1)-1
-   518  0031  00F0               	movwf	(??_sw_int+0)+0
-   519  0032  0C70               	rrf	(??_sw_int+0)+0,w
-   520  0033  1803               	btfsc	status,0
-   521  0034  2836               	goto	u3_21
-   522  0035  2839               	goto	u3_20
-   523                           	
-   524  0036                     u3_21:
-   525  0036  1283               	bcf	status, 5	;RP0=0, select bank0
-   526  0037  1587               	bsf	(59/8),(59)&7
-   527  0038  283B               	goto	u4_24
-   528  0039                     u3_20:
-   529  0039  1283               	bcf	status, 5	;RP0=0, select bank0
-   530  003A  1187               	bcf	(59/8),(59)&7
-   531  003B                     u4_24:
-   532                           	line	85
-   533                           	
-   534  003B                     i1l1499:	
-   535                           ;main.c: 85: INTCONbits.RAIF = 0;
-   536  003B  100B               	bcf	(11),0	;volatile
-   537                           	line	86
-   538                           	
-   539  003C                     i1l562:	
-   540  003C  0874               	movf	(??_sw_int+4),w
-   541  003D  00FF               	movwf	btemp+1
-   542  003E  0873               	movf	(??_sw_int+3),w
-   543  003F  008A               	movwf	pclath
-   544  0040  0872               	movf	(??_sw_int+2),w
-   545  0041  0084               	movwf	fsr0
-   546  0042  0E71               	swapf	(??_sw_int+1)^0FFFFFF80h,w
-   547  0043  0083               	movwf	status
-   548  0044  0EFE               	swapf	saved_w,f
-   549  0045  0E7E               	swapf	saved_w,w
-   550  0046  0009               	retfie
-   551                           	opt stack 0
-   552                           GLOBAL	__end_of_sw_int
-   553  0047                     	__end_of_sw_int:
-   554 ;; =============== function _sw_int ends ============
-   555                           
-   556                           	signat	_sw_int,88
-   557                           psect	text100,local,class=CODE,delta=2
-   558                           global __ptext100
-   559  0000                     __ptext100:
-   560                           	global	btemp
-   561  007E                     	btemp set 07Eh
-   562                           
-   563                           	DABS	1,126,2	;btemp
-   564                           	global	wtemp0
-   565  007E                     	wtemp0 set btemp
+   488                           	line	93
+   489                           	global	__size_of_sw_int
+   490  0055                     	__size_of_sw_int	equ	__end_of_sw_int-_sw_int
+   491                           	
+   492  0010                     _sw_int:	
+   493                           	opt	stack 7
+   494                           ; Regs used in _sw_int: [wreg+status,2+status,0]
+   495                           psect	intentry,class=CODE,delta=2
+   496                           global __pintentry
+   497  0004                     __pintentry:
+   498                           global interrupt_function
+   499  0004                     interrupt_function:
+   500                           	global saved_w
+   501  007E                     	saved_w	set	btemp+0
+   502  0004  00FE               	movwf	saved_w
+   503  0005  0E03               	swapf	status,w
+   504  0006  00F1               	movwf	(??_sw_int+1)
+   505  0007  0804               	movf	fsr0,w
+   506  0008  00F2               	movwf	(??_sw_int+2)
+   507  0009  080A               	movf	pclath,w
+   508  000A  00F3               	movwf	(??_sw_int+3)
+   509  000B  1283               	bcf	status, 5	;RP0=0, select bank0
+   510  000C  087F               	movf	btemp+1,w
+   511  000D  00F4               	movwf	(??_sw_int+4)
+   512  000E  2810               	ljmp	_sw_int
+   513                           psect	text101
+   514                           	line	121
+   515                           	
+   516  0010                     i1l1521:	
+   517                           ;main.c: 120: unsigned int j;
+   518                           ;main.c: 121: _nop();
+   519  0010  0000               	nop
+   520                           	line	122
+   521                           	
+   522  0011                     i1l1523:	
+   523                           ;main.c: 122: for(j=0; j<500; j++);
+   524  0011  01F5               	clrf	(sw_int@j)
+   525  0012  01F6               	clrf	(sw_int@j+1)
+   526                           	
+   527  0013                     i1l1525:	
+   528  0013  3001               	movlw	high(01F4h)
+   529  0014  0276               	subwf	(sw_int@j+1),w
+   530  0015  30F4               	movlw	low(01F4h)
+   531  0016  1903               	skipnz
+   532  0017  0275               	subwf	(sw_int@j),w
+   533  0018  1C03               	skipc
+   534  0019  281B               	goto	u9_21
+   535  001A  281C               	goto	u9_20
+   536  001B                     u9_21:
+   537  001B  281E               	goto	i1l1529
+   538  001C                     u9_20:
+   539  001C  282D               	goto	i1l566
+   540                           	
+   541  001D                     i1l1527:	
+   542  001D  282D               	goto	i1l566
+   543                           	
+   544  001E                     i1l565:	
+   545                           	
+   546  001E                     i1l1529:	
+   547  001E  3001               	movlw	low(01h)
+   548  001F  07F5               	addwf	(sw_int@j),f
+   549  0020  1803               	skipnc
+   550  0021  0AF6               	incf	(sw_int@j+1),f
+   551  0022  3000               	movlw	high(01h)
+   552  0023  07F6               	addwf	(sw_int@j+1),f
+   553  0024  3001               	movlw	high(01F4h)
+   554  0025  0276               	subwf	(sw_int@j+1),w
+   555  0026  30F4               	movlw	low(01F4h)
+   556  0027  1903               	skipnz
+   557  0028  0275               	subwf	(sw_int@j),w
+   558  0029  1C03               	skipc
+   559  002A  282C               	goto	u10_21
+   560  002B  282D               	goto	u10_20
+   561  002C                     u10_21:
+   562  002C  281E               	goto	i1l1529
+   563  002D                     u10_20:
+   564                           	
+   565  002D                     i1l566:	
+   566                           	line	123
+   567                           ;main.c: 123: _nop();
+   568  002D  0000               	nop
+   569                           	line	124
+   570                           	
+   571  002E                     i1l1531:	
+   572                           ;main.c: 124: led_state.bits.bit0 = RA0;
+   573  002E  3000               	movlw	0
+   574  002F  1283               	bcf	status, 5	;RP0=0, select bank0
+   575  0030  1805               	btfsc	(40/8),(40)&7
+   576  0031  3001               	movlw	1
+   577  0032  00F0               	movwf	(??_sw_int+0)+0
+   578  0033  0877               	movf	(_led_state),w
+   579  0034  0670               	xorwf	(??_sw_int+0)+0,w
+   580  0035  39FE               	andlw	not ((1<<1)-1)
+   581  0036  0670               	xorwf	(??_sw_int+0)+0,w
+   582  0037  00F7               	movwf	(_led_state)
+   583                           	line	125
+   584                           ;main.c: 125: led_state.bits.bit1 = RA1;
+   585  0038  3000               	movlw	0
+   586  0039  1885               	btfsc	(41/8),(41)&7
+   587  003A  3001               	movlw	1
+   588  003B  00F0               	movwf	(??_sw_int+0)+0
+   589  003C  0DF0               	rlf	(??_sw_int+0)+0,f
+   590  003D  0877               	movf	(_led_state),w
+   591  003E  0670               	xorwf	(??_sw_int+0)+0,w
+   592  003F  39FD               	andlw	not (((1<<1)-1)<<1)
+   593  0040  0670               	xorwf	(??_sw_int+0)+0,w
+   594  0041  00F7               	movwf	(_led_state)
+   595                           	line	126
+   596                           ;main.c: 126: led_state.bits.bit2 = RA2;
+   597  0042  3000               	movlw	0
+   598  0043  1905               	btfsc	(42/8),(42)&7
+   599  0044  3001               	movlw	1
+   600  0045  00F0               	movwf	(??_sw_int+0)+0
+   601  0046  0DF0               	rlf	(??_sw_int+0)+0,f
+   602  0047  0DF0               	rlf	(??_sw_int+0)+0,f
+   603  0048  0877               	movf	(_led_state),w
+   604  0049  0670               	xorwf	(??_sw_int+0)+0,w
+   605  004A  39FB               	andlw	not (((1<<1)-1)<<2)
+   606  004B  0670               	xorwf	(??_sw_int+0)+0,w
+   607  004C  00F7               	movwf	(_led_state)
+   608                           	line	127
+   609                           ;main.c: 127: led_state.bits.bit3 = RA3;
+   610  004D  3000               	movlw	0
+   611  004E  1985               	btfsc	(43/8),(43)&7
+   612  004F  3001               	movlw	1
+   613  0050  00F0               	movwf	(??_sw_int+0)+0
+   614  0051  0DF0               	rlf	(??_sw_int+0)+0,f
+   615  0052  0DF0               	rlf	(??_sw_int+0)+0,f
+   616  0053  0DF0               	rlf	(??_sw_int+0)+0,f
+   617  0054  0877               	movf	(_led_state),w
+   618  0055  0670               	xorwf	(??_sw_int+0)+0,w
+   619  0056  39F7               	andlw	not (((1<<1)-1)<<3)
+   620  0057  0670               	xorwf	(??_sw_int+0)+0,w
+   621  0058  00F7               	movwf	(_led_state)
+   622                           	line	128
+   623                           	
+   624  0059                     i1l1533:	
+   625                           ;main.c: 128: INTCONbits.RAIF = 0;
+   626  0059  100B               	bcf	(11),0	;volatile
+   627                           	line	129
+   628                           	
+   629  005A                     i1l567:	
+   630  005A  0874               	movf	(??_sw_int+4),w
+   631  005B  00FF               	movwf	btemp+1
+   632  005C  0873               	movf	(??_sw_int+3),w
+   633  005D  008A               	movwf	pclath
+   634  005E  0872               	movf	(??_sw_int+2),w
+   635  005F  0084               	movwf	fsr0
+   636  0060  0E71               	swapf	(??_sw_int+1)^0FFFFFF80h,w
+   637  0061  0083               	movwf	status
+   638  0062  0EFE               	swapf	saved_w,f
+   639  0063  0E7E               	swapf	saved_w,w
+   640  0064  0009               	retfie
+   641                           	opt stack 0
+   642                           GLOBAL	__end_of_sw_int
+   643  0065                     	__end_of_sw_int:
+   644 ;; =============== function _sw_int ends ============
+   645                           
+   646                           	signat	_sw_int,88
+   647                           psect	text102,local,class=CODE,delta=2
+   648                           global __ptext102
+   649  0000                     __ptext102:
+   650                           	global	btemp
+   651  007E                     	btemp set 07Eh
+   652                           
+   653                           	DABS	1,126,2	;btemp
+   654                           	global	wtemp0
+   655  007E                     	wtemp0 set btemp
 
 
 HI-TECH Software PICC Macro Assembler V9.83 build 10920 
-Symbol Table                                                                                   Wed Mar 07 23:56:27 2012
+Symbol Table                                                                                   Sun Mar 11 17:13:46 2012
 
-                  _RD 04E0                    _WR 04E1                   l551 0079                   l552 005F  
-                 l553 006A                   l554 0064                   l555 0074                   l556 007A  
-                 l557 007A                   _GIE 005F                   _RC1 0039                   _RC3 003B  
-                 fsr0 0004                  l2401 0075                  l2381 0047                  l2391 0056  
-                l2383 004A                  l2393 0058                  l2385 004E                  l2395 005A  
-                l2387 0051                  l2397 0060                  l2389 0054                  l2399 0064  
-                _IOCA 0096                  u2270 0074                  u2271 0073                  u2275 0070  
-                _WREN 04E2                  u1_20 001C                  u1_21 001B                  u2_20 002D  
-                u2_21 002C                  u3_20 0039                  u3_21 0036                  u4_24 003B  
-                _main 0047                  btemp 007E                  start 000F                 ?_main 0070  
-               _EEADR 009B                 _CARRY 0018                 _ANSEL 0091                 i1l560 001E  
-               i1l561 002D                 i1l562 003C                 _PORTA 0005                 _PORTC 0007  
-               _TRISA 0085                 _TRISC 0087                 main@i 0022                 pclath 000A  
-               status 0003                 wtemp0 007E          __end_of_main 007B                ??_main 0077  
-              _EEDATA 009A                _EECON1 009C                _EECON2 009D                _CMCON0 0019  
-              i1l1491 0013                i1l1493 001D                i1l1495 001E                i1l1487 0010  
-              i1l1497 002E                i1l1489 0011                i1l1499 003B                _sw_int 0010  
-              saved_w 007E        __pcstackCOMMON 0070            __pmaintext 0047            __pintentry 0004  
-             ?_sw_int 0070       __size_of_sw_int 0037  end_of_initialization 007B               sw_int@j 0075  
-           _PORTAbits 0005        __end_of_sw_int 0047   start_initialization 007B              ??_sw_int 0070  
-       __pcstackBANK0 0020             __ptext100 0000     interrupt_function 0004             main@delay 0020  
-            __ptext98 0000              __ptext99 0010         __size_of_main 0034            _INTCONbits 000B  
-            intlevel1 0000  
+                  _RD 04E0                    _WR 04E1                   l560 00B0                   l561 00B1  
+                 l562 00B1                   l559 0079                   _GIE 005F                   _RA0 0028  
+                 _RA1 0029                   _RA2 002A                   _RA3 002B                   _RC0 0038  
+                 _RC1 0039                   _RC2 003A                   _RC3 003B                   fsr0 0004  
+                l2401 006C                  l2411 0079                  l2403 006F                  l2413 0086  
+                l2405 0072                  l2415 0092                  l2407 0074                  l2417 00A0  
+                l2409 0076                  l2397 0065                  l2399 0068                  _IOCA 0096  
+                u2320 0084                  u2321 0081                  u2340 0090                  u2341 008D  
+                u2334 0086                  u2360 009E                  u2361 009B                  u2354 0092  
+                u2380 00AD                  u2381 00AA                  u2374 00A0                  u2394 00AF  
+                _WREN 04E2                  u9_20 001C                  u9_21 001B                  _main 0065  
+                _mode 0078                  btemp 007E                  start 000F                 ?_main 0070  
+               _EEADR 009B                 _CARRY 0018                 _ANSEL 0091                 i1l565 001E  
+               i1l566 002D                 i1l567 005A                 u10_20 002D                 u10_21 002C  
+               _PORTA 0005                 _PORTC 0007                 _TRISA 0085                 _TRISC 0087  
+        _sw_state_old 007A          _sw_state_new 0079                 pclath 000A                 status 0003  
+               wtemp0 007E          __end_of_main 00B2                ??_main 0020                _EEDATA 009A  
+              _EECON1 009C                _EECON2 009D                _CMCON0 0019                i1l1521 0010  
+              i1l1531 002E                i1l1523 0011                i1l1533 0059                i1l1525 0013  
+              i1l1527 001D                i1l1529 001E                _sw_int 0010                saved_w 007E  
+      __pcstackCOMMON 0070            __pmaintext 0065            __pintentry 0004               ?_sw_int 0070  
+     __size_of_sw_int 0055  end_of_initialization 00B6               sw_int@j 0075        __end_of_sw_int 0065  
+ start_initialization 00B2              ??_sw_int 0070           __pbssCOMMON 0077         __pcstackBANK0 0020  
+           __ptext100 0000             __ptext101 0010             __ptext102 0000             _led_state 0077  
+   interrupt_function 0004         __size_of_main 004D            _INTCONbits 000B              intlevel1 0000  

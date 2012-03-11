@@ -1,7 +1,7 @@
 
 
 HI-TECH Software PIC Macro Assembler V9.83 build 10920 
-                                                                                                           Wed Mar 07 23:56:27 2012
+                                                                                                           Sun Mar 11 17:13:46 2012
 
 
      1                           
@@ -14,9 +14,9 @@ HI-TECH Software PIC Macro Assembler V9.83 build 10920
      8                           	; Compiler options:
      9                           	;
     10                           	; -oMSB_5.cof -mMSB_5.map --summary=default --output=default main.p1 \
-    11                           	; --chip=16F684 -P --runtime=default --opt=default -D__DEBUG=1 -g \
-    12                           	; --asmlist --errformat=Error   [%n] %f; %l.%c %s \
-    13                           	; --msgformat=Advisory[%n] %s --warnformat=Warning [%n] %f; %l.%c %s
+    11                           	; --chip=16F684 -P --runtime=default --opt=default -g --asmlist \
+    12                           	; --errformat=Error   [%n] %f; %l.%c %s --msgformat=Advisory[%n] %s \
+    13                           	; --warnformat=Warning [%n] %f; %l.%c %s
     14                           	;
     15                           
     16                           
@@ -71,12 +71,12 @@ HI-TECH Software PIC Macro Assembler V9.83 build 10920
     65  000F                     _exit
     66                           	psect	end_init
     67                           	global start_initialization
-    68  000F  287B               	ljmp start_initialization	;jump to C runtime clear & initialization
+    68  000F  28B2               	ljmp start_initialization	;jump to C runtime clear & initialization
 
 
 HI-TECH Software PICC Macro Assembler V9.83 build 10920 
-Symbol Table                                                                                               Wed Mar 07 23:56:27 2012
+Symbol Table                                                                                               Sun Mar 11 17:13:46 2012
 
-               _main 0047                 _exit 000F                 start 000F  start_initialization 007B  
+               _main 0065                 _exit 000F                 start 000F  start_initialization 00B2  
            intlevel0 0000             intlevel1 0000             intlevel2 0000             intlevel3 0000  
            intlevel4 0000             intlevel5 0000             reset_vec 0000  
