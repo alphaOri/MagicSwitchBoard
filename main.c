@@ -17,29 +17,41 @@ __CONFIG(FOSC_INTOSCIO & PWRTE_OFF & BOREN_OFF & CP_OFF & CPD_OFF & WDTE_OFF & M
 
 #define TRUE 1
 #define FALSE 0
+#define MEMORIZE 101
+#define RECALLEXPIRE 105
+#define TRICK1 0 
+#define TRICK2 1
+#define TRICK3 2
 
-typedef union
-{
-	unsigned char byte;
-	struct{
-		unsigned bit0:1;
-		unsigned bit1:1;
-		unsigned bit2:1;
-		unsigned bit3:1;
-		unsigned bit4:1;
-		unsigned bit5:1;
-		unsigned bit6:1;
-		unsigned bit7:1;
-	}bits;	
-} bit_field;
+//typedef union
+//{
+//	unsigned char byte;
+//	struct{
+//		unsigned bit0:1;
+//		unsigned bit1:1;
+//		unsigned bit2:1;
+//		unsigned bit3:1;
+//		unsigned bit4:1;
+//		unsigned bit5:1;
+//		unsigned bit6:1;
+//		unsigned bit7:1;
+//	}bits;	
+//} bit_field;
+//
+//bit_field sw_state_new = {FALSE}, sw_state_old = {FALSE}, led_state = {FALSE};
 
-bit_field sw_state_new = {FALSE}, sw_state_old = {FALSE}, led_state = {FALSE};
+bit sw_state_new[8]={0}, sw_state_old[8]={0}, led_state[8]={0};
 
-unsigned char mode = 0;
+char table[4] = {-1, -1, -1, -1};
+
+char mode = TRICK1, state = 0, NUM_LEDS = 4, NUM_SWTCHS = 4;
 
 /////////////////FUNCTION DECLARATIONS///////////////////
 
 void select_mode(void);
+void reset_table(void);
+void reset_timer(void);
+void trick1(void);
 
 void main()
 {
@@ -78,7 +90,7 @@ void main()
 	
 
 	select_mode();
-	while(sw_state_new.byte)
+	while( *(unsigned char *) sw_state_new)
 	{
 		if(mode == 0)
 		{
@@ -109,65 +121,49 @@ void main()
 			RC3 = RC3 ^ 1;
 		}
 	}
-	while(TRUE)
+	
+	switch(mode)
 	{
-		NOP();
-		for(i=0; i<delay; i++);
-		NOP();
-		RC0 = RC0 ^ 1;	
-		RC1 = RC1 ^ 1;		
-		RC2 = RC2 ^ 1;		
-		RC3 = RC3 ^ 1;	
+		case TRICK1:
+			mode0()
+			break;
+		default:
+			while(TRUE)
+			{
+				NOP();
+				for(i=0; i<delay; i++);
+				NOP();
+				RC0 = RC0 ^ 1;	
+				RC1 = RC1 ^ 1;		
+				RC2 = RC2 ^ 1;		
+				RC3 = RC3 ^ 1;	
+			}
+			break;
 	}
 }
 
 void interrupt sw_int(void)
 {
-//	Psuedocode
-//	If button interrupt
-//	if(INTCONbits.RAIF == 1)
-//	{
-//		button_debounce(); //wait for bouncing to stop
-//		INTCONbits.RAIF = 0;  //reset int_flag
-		
-//		for each changed button
-//			if table miss
-//				count++
-//				set in sw_array for bouncing check later
-//				set in led_array equal to button value
-//				set table.swnum equal to count
-//			if table hit
-//				set sw_array
-//				set in led_array equal to button value
-//		if sw_array all low
-//			enable/reset timer
-//		elseif sw_array not all low
-//			disable timer
-//
-//	if timer interrupt
-//		reset sw_array, led_array, table	
-	
-
 //	set leds to led_array
 	unsigned int j;
-	sw_state_old.byte = sw_state_new.byte;
+	*(unsigned char *) sw_state_old = *(unsigned char *) sw_state_new;
 	NOP();
 	for(j=0; j<500; j++);
 	NOP();
-	sw_state_new.bits.bit0 = RA0;
-	sw_state_new.bits.bit1 = RA1;
-	sw_state_new.bits.bit2 = RA2;
-	sw_state_new.bits.bit3 = RA3;
+	sw_state_new[0] = RA0;
+	sw_state_new[1] = RA1;
+	sw_state_new[2] = RA2;
+	sw_state_new[3] = RA3;
 	INTCONbits.RAIF = 0;
 }
 
 void select_mode(void)
 {
-	sw_state_new.bits.bit0 = RA0;
-	sw_state_new.bits.bit1 = RA1;
-	sw_state_new.bits.bit2 = RA2;
-	sw_state_new.bits.bit3 = RA3;
-	mode = sw_state_new.byte;
+	sw_state_new[0] = RA0;
+	sw_state_new[1] = RA1;
+	sw_state_new[2] = RA2;
+	sw_state_new[3] = RA3;
+	mode = *(unsigned char *) sw_state_new;
 }	
 
 /*
@@ -185,3 +181,61 @@ void button_debounce(void)
 	}
 }
 */
+
+void trick1(void)
+{
+//	if new switch input
+//		reset timer
+//		is input assigned to led
+//			if not
+//				assign switch to led
+//				toggle led
+//			if so
+//				toggle led
+	reset_table();
+	char index, led_index, timer_enable = FALSE, timer_start = FALSE;
+	
+	while(TRUE)
+	{
+		if(newinput)
+		{
+			reset_timer();
+			for(index=0;index<NUM_SWTCHS;index++)
+			{
+				if(sw_state_new[index]!=sw_state_old[index])
+				{
+					for(led_index=0;led_index<NUM_LEDS;led_index++)
+					{
+						if(table[led_index]==index)
+						{
+							led_state[led_index] = led_state[led_index]^1;
+							break;
+						}	
+						else if(table[led_index]==-1)
+						{
+							table[led_index]=index;
+							led_state[led_index] = led_state[led_index]^1;
+							if(led_index==(NUM_LEDS-1))
+								timer_enable=TRUE;
+							break;
+						}		
+					}
+				}
+			}
+		}
+		if(timer_enable==TRUE && sw_state_new==0)
+		{
+			timer_start = TRUE;
+		}
+	}
+}
+
+void reset_table(void)
+{
+	char i=4;
+	for(i=0;i<4;i++)
+		table[i]=-1;
+}	
+
+void reset_timer(void)
+{}	
